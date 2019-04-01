@@ -13,7 +13,9 @@ using AbpCompanyName.AbpProjectName.Configuration;
 using AbpCompanyName.AbpProjectName.Identity;
 using AbpCompanyName.AbpProjectName.Web.Resources;
 using Abp.AspNetCore.SignalR.Hubs;
-
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Newtonsoft.Json.Serialization;
 
 namespace AbpCompanyName.AbpProjectName.Web.Startup
 {
@@ -28,13 +30,34 @@ namespace AbpCompanyName.AbpProjectName.Web.Startup
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            // MVC
-            services.AddMvc(
-                options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())
-            );
+            var supportedCultures = new[]
+            {
+                new CultureInfo("hr"),
+                new CultureInfo("en")
+            };
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new RequestCulture("hr");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+
+            //MVC
+            services
+                .AddMvc(options =>
+                {
+                    options.EnableEndpointRouting = false;
+                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
+
+            services.PostConfigure<MvcJsonOptions>(options =>
+            {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            });
 
             services.AddScoped<IWebResourceManager, WebResourceManager>();
 

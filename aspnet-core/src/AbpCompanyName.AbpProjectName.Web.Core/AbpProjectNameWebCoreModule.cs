@@ -46,6 +46,8 @@ namespace AbpCompanyName.AbpProjectName
                      typeof(AbpProjectNameApplicationModule).GetAssembly()
                  );
 
+            Configuration.Modules.AbpAspNetCore().UseMvcDateTimeFormatForAppServices = true;
+
             ConfigureTokenAuth();
         }
 

@@ -21,12 +21,38 @@
         }
 
         abp.ui.setBusy(_$form);
-        _userService.update(user).done(function () {
-            _$modal.modal('hide');
-            location.reload(true); //reload page to see edited user!
+
+        //comment this and uncomment ajax call under to see behaviour when request is going through controller
+        _userService.update(user).done(function (result, x, response) {
+            if (response.status === 200) {
+                _$modal.modal('hide');
+                location.reload(true); //reload page to see edited user!
+                toastr.success("Request successful");
+            }
+            else {
+                toastr.error("Error");
+            }
         }).always(function () {
-            abp.ui.clearBusy(_$modal);
+            abp.ui.clearBusy(_$form);
         });
+        
+        /*
+        $.ajax({
+            url: '/Users/UpdateUser',
+            data: user,
+            type: 'POST',
+            success: function () {
+                _$modal.modal('hide');
+                location.reload(true); //reload page to see edited user!
+            },
+            error: function () {
+                toastr.error("Error");
+            },
+            always: function (result) {
+                abp.ui.clearBusy(_$form);
+            }
+        });
+       */
     }
 
     //Handle save button click

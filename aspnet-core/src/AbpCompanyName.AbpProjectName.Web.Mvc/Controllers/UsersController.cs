@@ -7,6 +7,7 @@ using AbpCompanyName.AbpProjectName.Controllers;
 using AbpCompanyName.AbpProjectName.Users;
 using AbpCompanyName.AbpProjectName.Web.Models.Users;
 using AbpCompanyName.AbpProjectName.Users.Dto;
+using Abp.Web.Models;
 
 namespace AbpCompanyName.AbpProjectName.Web.Controllers
 {
@@ -42,6 +43,14 @@ namespace AbpCompanyName.AbpProjectName.Web.Controllers
                 Roles = roles
             };
             return View("_EditUserModal", model);
+        }
+
+        [HttpPost]
+        public async Task<AjaxResponse> UpdateUser(UserDto input)
+        {
+            await _userAppService.Update(input);
+
+            return new AjaxResponse(true);
         }
     }
 }

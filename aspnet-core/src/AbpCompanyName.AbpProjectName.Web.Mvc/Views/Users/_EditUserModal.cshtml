@@ -66,6 +66,26 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row clearfix">
+                    <div class="col-sm-12">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <p>Date HR: <input type="text" name="RandomDateHR" id="datepickerHR" value="@Model.User.RandomDateHr"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row clearfix">
+                    <div class="col-sm-12">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <p>Date EN: <input type="text" name="RandomDateEN" id="datepickerEN" value="@Model.User.RandomDateEn"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div role="tabpanel" class="tab-pane animated fadeIn" id="edit-user-roles">
@@ -89,3 +109,9 @@
 @Html.Partial("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
 
 <script src="~/view-resources/Views/Users/_EditUserModal.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#datepickerHR").datepicker({ dateFormat: 'd.m.yy.' });
+        $("#datepickerEN").datepicker();
+    });
+</script>

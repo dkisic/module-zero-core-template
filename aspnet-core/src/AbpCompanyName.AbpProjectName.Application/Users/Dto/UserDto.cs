@@ -36,5 +36,9 @@ namespace AbpCompanyName.AbpProjectName.Users.Dto
         public DateTime CreationTime { get; set; }
 
         public string[] RoleNames { get; set; }
+
+        public DateTime? RandomDateHr { get; set; }
+
+        public DateTime? RandomDateEn { get; set; }
     }
 }
